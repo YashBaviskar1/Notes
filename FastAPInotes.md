@@ -170,3 +170,41 @@ No json.dumps() needed — FastAPI does it automatically.
 - Validation → Field, Query, Path
 - JSON → Just return dict/list/model
 ```
+
+## Loading enviornment variables in FASTAPI
+
+### Documentation reccomandation
+
+### Use Pydantic `settings`
+
+Create the Settings object¶
+Import BaseSettings from Pydantic and create a sub-class, very much like with a Pydantic model.
+
+The same way as with Pydantic models, you declare class attributes with type annotations, and possibly default values.
+
+You can use all the same validation features and tools you use for Pydantic models, like different data types and additional validations with `Field()`.
+
+```python
+
+from fastapi import FastAPI
+from pydantic_settings import BaseSettings
+
+
+class Settings(BaseSettings):
+    app_name: str = "Awesome API"
+    admin_email: str
+    items_per_user: int = 50
+
+
+settings = Settings()
+app = FastAPI()
+
+
+@app.get("/info")
+async def info():
+    return {
+        "app_name": settings.app_name,
+        "admin_email": settings.admin_email,
+        "items_per_user": settings.items_per_user,
+    }
+```

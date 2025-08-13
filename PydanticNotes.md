@@ -212,3 +212,26 @@ print(reg.model_dump_json(indent=2))
 - values lets you reference previously validated fields (order matters).
 - Nested models make structured, reusable validation easy.
 - Use .model_dump_json() for JSON output and .model_dump() for dicts.
+
+## ✅ Key Takeaway:
+
+- Primitive parameters → default to query params
+
+```python
+@app.get("/items")
+def read_items(skip: int = 0, limit: int = 10):  # These become query params
+    return {"skip": skip, "limit": limit}
+```
+
+- Pydantic models → read from request body (works for POST, PUT, PATCH)
+
+```python
+class Item(BaseModel):
+    name: str
+    description: str | None = None
+    price: float
+
+@app.post("/items")
+def create_item(item: Item):  # Comes from request body
+    return item
+```
