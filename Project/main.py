@@ -1,11 +1,18 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from pydantic import BaseModel, Field
 import os
 from pydantic_settings import BaseSettings
 from dotenv import load_dotenv, find_dotenv
-from typing import Optional
+from typing import Optional, List
 from langchain_groq import ChatGroq
 from langchain.prompts import PromptTemplate
+import time
+from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor
+
+
+
+
 class Settings(BaseSettings) :
     API_KEY : str
     class Config :
@@ -17,6 +24,17 @@ settings = Settings()
 #client = Groq(api_key=settings.API_KEY)
 app = FastAPI()
 
+
+
+class Text(BaseModel) :
+    text : str = Field(..., min_length=50)
+    amt_of_chracters : Optional[int] = Field(default=None,gt = 0)
+    question : Optional[str] = Field(default=None)  
+
+
+class Document(BaseModel) :
+    texts : List[str] = Field(..., min_items = 1)
+
 def templates(agent_call : str) :
     template_for_summarization = """
     You are a summarizer agent who has to summarize the text and restrict it to specific N words.
@@ -25,7 +43,7 @@ def templates(agent_call : str) :
     Size Constraint : {number} of words
     """
     template_for_ask = """
-    You are suppoed to answer the user's query for given question based on the context avaliable 
+    You are supposed to answer the user's query for given question based on the context avaliable 
     from you to answer from, stick to the context while answering user's query
     text to ask from : {text} 
     question : {question}
@@ -34,11 +52,21 @@ def templates(agent_call : str) :
         return template_for_summarization
     elif agent_call == "ask" : 
         return template_for_ask
+    
 
-class Text(BaseModel) :
-    text : str = Field(..., min_length=50)
-    amt_of_chracters : Optional[int] = Field(default=None,gt = 0)
-    question : Optional[str] = Field(default=None)  
+def write_in_logs(log) :
+    with open("logs.txt", "a")  as file :
+        file.write(f"\n{log}")
+
+@app.middleware('http')
+async def log_processing_time(request : Request, call_next) :
+    start_time = time.time()
+    response = await call_next(request)
+    final_time = time.time()
+    print(final_time - start_time)
+    log = f"{datetime.now()}\tRequest : {request.method} {request.url.path} | start time : {start_time} | final time : {final_time} | Processing time : {final_time - start_time}"
+    write_in_logs(log)
+    return response
 
 
 def LLM_integration(text_input : str, template_type : str, number_of_words : int | str = None, question : str = None ):
@@ -71,3 +99,25 @@ def ask_llm(payload : Text) :
     question = payload.question if payload.question is not None else "please ask question"
     response = LLM_integration(payload.text, "ask", question=question)
     return {"text": payload.text, "question": question, "response" : response}
+
+##### ITERATION 1 ######
+@app.post('/bulk_summarizer/')
+def bulk_summarizer(payload : Document) :
+    results = []
+    for text in payload.texts : 
+        results.append({
+            "text" : text,
+            "summary" : LLM_integration(text, "summary")
+        })
+    
+    return results
+
+
+##### ITERATION 2 ########
+@app.post('/bulk_summarizer2/')
+def bulk_summarizer2(payload : Document) :
+    result_iterator = []
+    with ThreadPoolExecutor(max_workers=6) as execuator : 
+        result_iterator = execuator.map(LLM_integration, payload.texts, ["summary"]*len(payload.texts))
+    results = list(result_iterator)
+    return { "results" : results}

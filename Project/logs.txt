@@ -1,0 +1,9 @@
+
+2025-08-14 17:33:21.802779	Request : POST /summarize/ | start time : 1755173001.7957559 | final time : 1755173001.8027792 | Processing time : 0.007023334503173828
+2025-08-14 17:33:25.860785	Request : POST /summarize/ | start time : 1755173005.858782 | final time : 1755173005.8607855 | Processing time : 0.0020034313201904297
+2025-08-14 17:33:28.861667	Request : POST /summarize/ | start time : 1755173008.8541214 | final time : 1755173008.856662 | Processing time : 0.00254058837890625
+2025-08-14 17:36:58.393091	Request : POST /summarize_llm/ | start time : 1755173218.3550732 | final time : 1755173218.3870842 | Processing time : 0.03201103210449219
+2025-08-14 17:38:56.153153	Request : POST /summarize_llm/ | start time : 1755173331.7360153 | final time : 1755173336.148562 | Processing time : 4.412546634674072
+2025-08-14 17:59:35.886834	Request : POST /ask | start time : 1755174572.6395307 | final time : 1755174575.8707268 | Processing time : 3.231196165084839
+2025-08-14 18:01:10.346338	Request : POST /bulk_summarizer/ | start time : 1755174661.8334668 | final time : 1755174670.3423378 | Processing time : 8.508871078491211
+2025-08-14 18:01:23.552290	Request : POST /bulk_summarizer2/ | start time : 1755174679.2113643 | final time : 1755174683.5522902 | Processing time : 4.340925931930542
