@@ -9,6 +9,7 @@ from langchain.prompts import PromptTemplate
 import time
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
+from langchain_ollama import ChatOllama
 
 
 
@@ -71,11 +72,12 @@ async def log_processing_time(request : Request, call_next) :
 
 def LLM_integration(text_input : str, template_type : str, number_of_words : int | str = None, question : str = None ):
     llm = ChatGroq(api_key = settings.API_KEY, model="llama-3.3-70b-versatile", temperature=0.8)
+    llm2 = ChatOllama(model = "gemma3:1b")
     if template_type == "summary" :
         prompt = PromptTemplate.from_template(templates(template_type)).format(text=text_input, number=number_of_words)
     elif template_type == "ask" : 
         prompt = PromptTemplate.from_template(templates(template_type)).format(text=text_input, question=question)        
-    response = llm.invoke(prompt)
+    response = llm2.invoke(prompt)
     return response.content
 
 

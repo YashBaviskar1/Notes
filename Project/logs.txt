@@ -7,3 +7,10 @@
 2025-08-14 17:59:35.886834	Request : POST /ask | start time : 1755174572.6395307 | final time : 1755174575.8707268 | Processing time : 3.231196165084839
 2025-08-14 18:01:10.346338	Request : POST /bulk_summarizer/ | start time : 1755174661.8334668 | final time : 1755174670.3423378 | Processing time : 8.508871078491211
 2025-08-14 18:01:23.552290	Request : POST /bulk_summarizer2/ | start time : 1755174679.2113643 | final time : 1755174683.5522902 | Processing time : 4.340925931930542
+2025-08-26 14:28:00.135551	Request : GET /docs | start time : 1756198680.1346502 | final time : 1756198680.1352756 | Processing time : 0.0006253719329833984
+2025-08-26 14:28:00.208590	Request : GET /openapi.json | start time : 1756198680.201643 | final time : 1756198680.2083285 | Processing time : 0.006685495376586914
+2025-08-26 14:28:44.050282	Request : POST /ask | start time : 1756198724.0455954 | final time : 1756198724.0499895 | Processing time : 0.004394054412841797
+2025-08-26 14:29:06.716856	Request : POST /ask | start time : 1756198739.5256872 | final time : 1756198746.7167294 | Processing time : 7.191042184829712
+2025-08-26 14:34:00.803444	Request : POST /bulk_summarizer/ | start time : 1756199026.607654 | final time : 1756199040.803275 | Processing time : 14.195621013641357
+2025-08-26 14:37:57.997262	Request : POST /bulk_summarizer2/ | start time : 1756199277.996379 | final time : 1756199277.997053 | Processing time : 0.0006740093231201172
+2025-08-26 14:38:23.593000	Request : POST /bulk_summarizer2/ | start time : 1756199291.1002612 | final time : 1756199303.5926287 | Processing time : 12.492367506027222
