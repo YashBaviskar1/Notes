@@ -94,8 +94,10 @@ try :
     print("connection closed")
 except psycopg2.Error as e : 
     print("Error : ", e )
-
 ```
+
+
+
 
 ### Tables 
 - to see the created table 
@@ -288,6 +290,89 @@ Hence : **We have to bring both the containers inthe same network**
     docker network connect pgnet pgadmin
     ```
 - Inside the Pgadmin we do the following to 
+
+
+
+
+### ChromaDB basics : 
+
+#### Basics : 
+
+- ChromaDB is an open-source vector database built for handling embeddings (numerical vector representations of text, images, audio, etc.).
+- It helps you store, index, and query embeddings efficiently, which is essential in applications like:
+
+    -  Semantic search
+
+    - Recommendation systems
+
+    - Question answering (with LLMs + RAG)
+
+    - Similarity search (e.g., "find documents similar to this one")
+
+    - Think of it as a database that’s optimized for similarity instead of exact matches.
+
+
+#### Working of ChromaDB : 
+ - input data : text, images etc 
+ - embedding model : convert the data to a vector 
+ - store vectors 
+ - Query -> provide another vecter -> find the closet match 
+ - output -> most similar item 
+
+
+#### Terms in relation to ChromaDB
+- **Collections :** group of embeddings with metadata
+- **Embeddings** : Group of dense vectors 
+- **MetaData** : Extra info attached to embeddings 
+- **Similarity Search** : find nearest neighbours 
+- **Persistance** : ChromaDB can store data in memory or in Disk 
+- **Integration with LLMs** : RAG 
+
+#### Basic Connection Code in Python 
+```python
+import chromadb
+
+Client = chromadb.Client()
+
+collections = Client.create_collection("my_documents")
+
+collections.add(
+    ids=["1", "2"],
+    documents=['this is a text', 'this is another text'],
+    embeddings=[[0.1,0.2,0.3], [0.1,0.3,0.9]]
+)
+
+results = collections.query(
+    query_embeddings=[[0.1,0.55,0.7]],
+    n_results= 1
+)
+
+print(results)
+``` 
+
+
+#### Sentence Embeddings 
+
+They are pretrained dense vectors which essentially transform data to vectors (multi-dimentsional)
+
+libraries : `sentence-transformers`
+
+**`sentence-transformers/all-MiniLM-L6-v2` → ~22M parameters, runs on CPU, ~5ms per sentence.**
+
+**Simple Embedding Example** :
+```python
+from sentence_transformers import SentenceTransformer
+
+
+model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+
+
+statement = "This is a sentence." 
+
+embedding = model.encode(statement)
+print(embedding.shape)
+print(embedding[:10])
+```
 
 ## External Notes : 
 
