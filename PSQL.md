@@ -218,6 +218,77 @@ $$
 ```sql 
 SELECT * FROM notes ORDER BY embedding <=> '[0.15, 0.85, 0.35]';
 ```
+
+
+### PGADMIN 
+
+- ***Graphical User Interface for postgress***
+
+#### Installation 
+
+- With Docker :
+
+**Important note** : 
+pgAdmin and PostgreSQL should be run in separate Docker containers.
+
+
+- **Create a Docker Network**: Establish a custom Docker network to allow the PostgreSQL and pgAdmin containers to communicate securely.
+- **Run PostgreSQL Container**: Start a PostgreSQL container, connecting it to the custom network.
+- **Run pgAdmin Container**: Start a pgAdmin container, also connecting it to the same custom network. Configure pgAdmin to connect to the PostgreSQL container using its container name (or IP address within the network) as the hostname.
+
+
+
+Hence to Execuate PGadmin using docker : 
+- Run PgAdmin container in background (`-d` detached mode )
+
+- name it `pgadmin` for easier access :
+`--name pgadmin`
+
+- setup default environment variables for login :
+`-e PGADMIN_DEFAULT_EMAIL = admin@admin.com` and 
+`-e PGADMIN_DEFAULT_PASSWORD = admin`
+
+- make it avaliable on port 80 of localhost ; 
+`-p 8080:80`
+
+- Use the   `dpage/pgadmin4` Image 
+From the official website for [pgadmin](https://hub.docker.com/r/dpage/pgadmin4/)
+
+
+Notes : 
+-`docker run dpage/pgadmin4 -d ...` : **The image name (dpage/pgadmin4) must come last in the command.**
+
+- `PGADMIN_DEFAULT_EMAIL = email` : **No spaces are allowed around =.**
+
+**Hence Combining all that we have  :**
+```bash
+docker run --name pgadmin -d -e PGADMIN_DEFAULT_EMAIL=email -e PGADMIN_DEFAULT_PASSWORD=password -p 8080:80 dpage/pgadmin4
+```
+
+**OUTCOME : PGADMIN running on port 8080 through docker**
+
+#### Connecting PgADMIN container and Pgvector Container using Docker : 
+
+This part over here is interesting, as we have done it like this : 
+- potgres is running in a container named `db` on port `8080`
+- pgadmin is running in a container named `pgadmin` on port `5432`
+
+Now Since both the containers have to be connected -> in essence we have to "see" the databases in the `db` container 
+
+Hence : **We have to bring both the containers inthe same network** 
+
+- In order to do this, we require to create a name docker network for both of them : 
+
+    ```bash 
+    docker create network pgnet 
+    ```
+- Connect both containers to it 
+    ```bash
+    docker network connect pgnet db
+    docker network connect pgnet pgadmin
+    ```
+- Inside the Pgadmin we do the following to 
+
 ## External Notes : 
 
 
