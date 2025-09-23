@@ -51,3 +51,42 @@ usermod -aG wheel yash
 jorurnalctl -t trobuleshoot 
 ```
 
+
+
+### Remote Access & File Transfer
+
+
+####  Install and enable SSH Server on Fedora VM 
+
+```bash
+sudo dnf install -y openssh-server
+
+sudo systemctl enable sshd --now
+
+systemctl status sshd
+```
+
+
+### Firewall add to ssh 
+
+To ensure fedora firewall allows ssh 
+```bash 
+sudo firewall-cmd --permanent --add-service=ssh
+sudo firewall-cmd --reload
+```
+
+## SFTP 
+
+SFTP (Secure File Transfer Protocol) runs over SSH.
+
+It lets you upload, download, and manage files securely between your client and server 
+
+
+File Transfer module
+
+Local Mzchine -> server
+```bash 
+scp myfile.txt username@192.168.1.50:/home/username/
+```
+
+
