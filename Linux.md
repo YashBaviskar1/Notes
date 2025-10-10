@@ -90,3 +90,4 @@ scp myfile.txt username@192.168.1.50:/home/username/
 ```
 
 
+server -> localmachine
