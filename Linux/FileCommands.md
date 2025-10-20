@@ -155,3 +155,98 @@ since var/log/ is usually temp and safe to delete we can also directly delete is
 ```
 find /var/log -type f -size +500M -exec rm -rf {} \;
 ```
+
+----------------
+
+7) `>` and `>>` are called output redirections, they essentially control the output of the command. 
+- `>` is for overwrite 
+- `>>` is for append 
+
+once of the basic ways it works as : 
+```bash
+echo "Hello there" > file1.txt
+```
+```bash
+echo "Hello there" > file1.txt
+```
+output : 
+```
+Hello There
+```
+
+
+```
+echo "Hello there again" >> file1.txt
+```
+output :
+```
+Hello there 
+Hello there again
+```
+
+----------------------------------- 
+Advanced 
+8) To find which directory takes up most space in linux server 
+
+There are couple of ways where you can see the sapce of the directory of the linux server, we can use the traditional `find` but instead we can also simply use 
+`du` which essentially talks about disk usage of the system, you can directly ask for the directories that consume space in human readable form 
+
+you can combine it with `sort` and `head` to see the top most space consuming directores hence 
+```bash
+du -h | sort -rh | head -n 10
+```
+
+`-rh` is reverse sorting in descending order 
+
+
+9) Understanding how the pipe opeations work essentially 
+- We Assume we have a `file.txt` with this type of text inside it : 
+```bash
+yash@localhost:~/test$ cat file.txt
+test
+test
+test1
+test2
+test2
+error : disk failed
+error : error in conf file
+error : disk failed
+error : disk failed
+
+
+yash@localhost:~/test$
+```
+
+Now in order to to understand let's see we want to see the occurances of all the unique errors hence we get : 
+```
+cat file.txt | grep "error" 
+```
+
+this will grab the lines that have error in them 
+
+Now in order to use `uniq` which is a filter command for repeated lines which are adjacent to each other (important)
+
+Hence : 
+```
+cat file.txt | grep "error" | sort | uniq -c
+```
+
+will grep the lines which has errors and then provide the unique count of each of the following. 
+
+
+---
+10) Using SSH pipe we can do it, i had one file.text on server 1 (fedora VM)
+and server 2 (GCP) and using this i transfered the file : 
+```bash
+ssh yash@192.168.0.133 "cat test/file.txt" |  ssh -i ~/.ssh/pro_fixionoff pro_fixionoff@profixion.in
+"cat > temp/file.txt"
+```
+Output : 
+```bash
+Hello there i am in the virtual machine of yash, let's see the magic
+one dream one soul
+one price one goal
+one golden glance of what should be
+```
+
+Hence without saving locally we have successuly transfered file from server A to server B 

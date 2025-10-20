@@ -135,7 +135,7 @@
 
 ---
 
-## 🟩 **7. Process Management**
+##  **7. Process Management**
 
 **Basic**
 
@@ -201,7 +201,7 @@
 
 ---
 
-## 🟩 **10. Networking & Firewall**
+##  **10. Networking & Firewall**
 
 **Basic**
 
