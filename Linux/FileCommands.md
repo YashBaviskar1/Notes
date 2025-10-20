@@ -3,7 +3,7 @@
 
 
 
-## 🟩 **2. File System Navigation & File Operations**
+## **2. File System Navigation & File Operations**
 
 **Basic**
 
@@ -98,4 +98,60 @@ But the important distinction now to find the files **modified in last 24 hours*
 For this we will use another flag `-mtime N` which basically finds files by modification date, so for within 24 hours we can use `-1` (within a day ), hence we get our final output as : 
 ```bash
 find / -type f -name "*.log" -mtime -1 2>/dev/null
+```
+
+
+
+6) "Deleting All files larger than 500MB inside `/var/log` "safely"
+
+- at first from our previous understanding we can use find command to find files larger than 500MB in a specific diretory, by using `-size` flag 
+
+- we know deleting stuff in linux is `rm` 
+
+- we have to combine the `find` and `rm` command -> in order to do that we can use `xargs` command 
+
+the basic way in which `xargs` work is 
+```bash 
+[some command that produces output] → xargs → [another command using that output as arguments]
+```
+
+It's basic syntax is : 
+```bash 
+command1 | xargs [options] command2
+```
+the options it has are 
+| Option          | Meaning                                                |
+| --------------- | ------------------------------------------------------ |
+| `-n N`          | Run the command **N items at a time**                  |
+| `-I {}`         | Use `{}` as a placeholder for each item                |
+| `-0` / `--null` | Handle filenames with spaces (use with `find -print0`) |
+
+to combine it with find we can hence do 
+```bash 
+find /var/log -type f -name "*.log" -size +100M 2>/dev/null | xargs rm -i
+```
+
+(After trying this out there is a werid interactive issue due to the batch processing, file output handling)
+
+In order to "safely" : we can use `-exec` flag in order to treat the output one-by-one :
+the basic syntax for that is : 
+```
+find [path] [arguments] -exec [command] {} \;
+```
+what does this do is, the output is used in placeholer `{}` and `\` indicates to execute in the next line, 
+you can also use : 
+```
+find [path] [arguments] -exec [command] {} +;
+```
+for combining the file outputs into a single command  
+
+Hence combining with our question the final result for 
+"safely deleteing files larger than 500MB in /var/log" wil be : 
+```
+find /var/log -type f -size +500M -exec rm -i {} \;
+```
+which will safely delete by interactivly asking user to confirm the deletion, 
+since var/log/ is usually temp and safe to delete we can also directly delete is by : 
+```
+find /var/log -type f -size +500M -exec rm -rf {} \;
 ```
