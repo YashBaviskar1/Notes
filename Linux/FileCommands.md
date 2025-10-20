@@ -40,6 +40,62 @@ whereas the command `mv /dir/file1 ,` --> brings that file from that specified `
 
 Intermediate 
 
-5) 
+5) The way to approch this is in two parts, one part is 'how to find and isolate file with certain extension or name'.
+There is a universal command in linux to find files which is `find` command. 
+The basic way in which find commands works is 
+```bash
+find [options] [path..] [expression]
+```
+Where options control the symbolic links, debugging options and optimization method 
+
+for `options`
+the methods are 
+- `-L` which is used to follow the symbolic link while traversing the directores 
+
+- `-P` : deafult behaviour of not following th symbolic links 
+
+- The Optimisation Flags `-O1 -O2 -O3` based on the level of performance and safety, by deault `O1` is considered but for Large and VERY huge directors `O2 and O3` might be used for fastest possible result 
+
+- `-D` showcases the debug level for the which has these various levels 
+```bash 
+Valid arguments for -D:
+exec       Show diagnostic information relating to -exec, -execdir, -ok and -okdir
+opt        Show diagnostic information relating to optimisation
+rates      Indicate how often each predicate succeeded
+search     Navigate the directory tree verbosely
+stat       Trace calls to stat(2) and lstat(2)
+time       Show diagnostic information relating to time-of-day and timestamp comparisons
+tree       Display the expression tree
+all        Set all of the debug flags (but help)
+help       Explain the various -D options
+```
 
 
+
+- **Path** : the path showcases the starting directory from where it will start the search 
+
+- **expression** : options, search patterns, operators etc 
+
+
+Now there are various flags by which we can search the file name by its extension, the useful one in this case is `-name`
+and we can also specify the -`type` what we want to find the common descriptors are : 
+- `f`: a regular file
+- `d`: directory
+- `l`: symbolic link
+- `c`: character devices
+- `b`: block devices
+- `p`: named pipe (FIFO)
+- `s`: socket
+
+So to find files with `.log` extension we use : `-type f` and `-name "*.log"` which will help us find all the .log files 
+
+But if we want to find it system wide it is important to understand that it can get really cluttered with permissiond denied errors to a neat trick is to hide all the `stderr` using this line `2>/dev/null` what does do is put all the stderr stream to a null device file which hides it 
+
+So our command till now has become  : 
+`find / -type f -name "*.log"`
+
+But the important distinction now to find the files **modified in last 24 hours**
+For this we will use another flag `-mtime N` which basically finds files by modification date, so for within 24 hours we can use `-1` (within a day ), hence we get our final output as : 
+```bash
+find / -type f -name "*.log" -mtime -1 2>/dev/null
+```
