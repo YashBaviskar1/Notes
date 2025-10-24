@@ -33,7 +33,7 @@
 2) The command `mv file1 /dir/` -> moves the file one to the `/dir/`
 whereas the command `mv /dir/file1 ,` --> brings that file from that specified `/dir/` to the current directory.
 
-3) In order to recursivly copy a directory from one place as well as its contents inside it you can use `cp -r source_dir/ destionation_dir/` 
+3) In order to recursively copy a directory from one place as well as its contents inside it you can use `cp -r source_dir/ destionation_dir/` 
 
 4) `.` indicates current dirctory where the terminal is pointing to, whereas `..` referes to previous directory with respect to current one 
 
@@ -52,7 +52,7 @@ for `options`
 the methods are 
 - `-L` which is used to follow the symbolic link while traversing the directores 
 
-- `-P` : deafult behaviour of not following th symbolic links 
+- `-P` : default behaviour of not following th symbolic links 
 
 - The Optimisation Flags `-O1 -O2 -O3` based on the level of performance and safety, by deault `O1` is considered but for Large and VERY huge directors `O2 and O3` might be used for fastest possible result 
 
@@ -238,8 +238,7 @@ will grep the lines which has errors and then provide the unique count of each o
 10) Using SSH pipe we can do it, i had one file.text on server 1 (fedora VM)
 and server 2 (GCP) and using this i transfered the file : 
 ```bash
-ssh yash@192.168.0.133 "cat test/file.txt" |  ssh -i ~/.ssh/pro_fixionoff pro_fixionoff@profixion.in
-"cat > temp/file.txt"
+ssh yash@192.168.0.133 "cat test/file.txt" |  ssh -i ~/.ssh pro_fixionoff pro_fixionoff@profixion.in "cat > temp/file.txt"
 ```
 Output : 
 ```bash

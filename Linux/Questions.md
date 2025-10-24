@@ -288,4 +288,3 @@
 9. How can you monitor if cron jobs fail or hang?
 
 ---
-
