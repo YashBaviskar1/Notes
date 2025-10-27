@@ -130,5 +130,26 @@ rollback -> will rollback all the commands will that specific id
 undo -> will undo that specific command to that id 
 
 
+8) **Local Yum Repo**
+
+Understanding the local repository stuff : 
+- Essentially a repo consists of the location of the `.rpm` files that we install, as well as the metadata like 
+    - which packages 
+    - versions 
+    - dependencies 
+`.repo` tells the DNF where to look exactly 
+
+For local repository creation we need : 
+- `.rpm` files of software we want to package 
+- `createrepo` and dnf utils tools 
+
+![alt text](image.png)
+
+locally downloaded from myrepo packages 
 
 
+8) YUM is called Yellowdog Updater Modifier and DNF is Dandified YUM, YUM is older and slower in dependency resoultion, DNF is newer, using faster technique for dependency resolution. 
+
+
+
+sudo dnf install --disablerepo="*" --enablerepo="myrepo" 
