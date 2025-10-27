@@ -223,3 +223,10 @@
 
 
 ##### Answers 
+
+### 1 Core concepts
+
+1) Docker is essentially an tool which allows for packaging and contanierzation of any type of dependecy and code that can run on a normal machine to run in a minimal linux-like kernal abstraction. it is basically a os virtualization tool. 
+Docker containers are way light wieght than VMs, and there is no overhead like of maintaining a VM, a VM can have multiple docker containers running inside it, it is a minimal absrtraction of the packaged code running inside (with a minimal kernal), a Virtual Machine whereas is the virtualisation of an entire os with extensive capablites 
+
+2) Docker Image is a Text File which contains the details on how to run the conatiner, a container is the actually running instance of docker which consists of the code/application  
