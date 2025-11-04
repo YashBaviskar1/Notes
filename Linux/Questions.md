@@ -137,7 +137,7 @@
 
 ##  **7. Process Management**
 
-**Basic**
+**Basic**d
 
 1. How do you list all running processes?
 2. What’s the difference between `kill`, `killall`, and `pkill`?
